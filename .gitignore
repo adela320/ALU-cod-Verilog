@@ -1,0 +1,14 @@
+# 1. Ignoră absolut tot
+*
+
+# 2. Permite folderele (altfel Git nu va căuta fișiere în ele)
+!*/
+
+# 3. Whitelist: fișierele pe care VREI să le păstrezi
+!*.v
+!*.tcl
+!*.txt
+!*.md
+
+# 4. Nu uita să păstrezi și fișierul .gitignore în sine!
+!.gitignore
