@@ -1,15 +1,16 @@
 `timescale 1ns/1ns
 
+//Pentru numere fara semn (Unsigned); folosit la testarea restoring division
+
 module addsub (
     input  wire clk, reset, start, sub,
     input  wire [7:0] a8, b8,
     output reg busy, done,
     output reg [8:0] sum9
 );
-    // Corectie: Zero-extensie pentru numere fara semn (Unsigned)
-    wire [8:0] a9 = {1'b0, a8};
-    wire [8:0] b9 = {1'b0, b8};
-
+    
+    wire [8:0] a9 = {1'b0, a8}; //Extensie cu 0
+    wire [8:0] b9 = {1'b0, b8}; //Extensie cu 0
     wire [8:0] r_sum;
     wire r_cout;
 

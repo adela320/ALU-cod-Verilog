@@ -3,16 +3,16 @@ module restoring_div_unsigned (
     input  wire reset,
     input  wire start,
 
-    input  wire [7:0] dividend_hi,
-    input  wire [7:0] dividend_lo,
+    input  wire [7:0] dividend_hi, //cei mai semnificativi 8 biti a deimpartitului. Bitii 15-8. De obicei 0 daca imparti doar 8 biti la 8 biti
+    input  wire [7:0] dividend_lo, //Bitii 7-0 / (Deimpartitul)
     input  wire [7:0] divisor8,
 
-    output reg busy,
-    output reg done,
-    output reg div0,
+    output reg busy, // 1 cand modulul lucreaza
+    output reg done, // 1 cand calculul e gata
+    output reg div0, // 1 daca impartitorul este 0 (eroare)
 
-    output reg [7:0] quotient,
-    output reg [7:0] remainder
+    output reg [7:0] quotient,  // Catul
+    output reg [7:0] remainder  // Restul
 );
 
     reg [8:0] A;          // remainder accumulator (unsigned)
@@ -20,7 +20,7 @@ module restoring_div_unsigned (
     reg [8:0] M;          // divisor extended (unsigned)
     reg [3:0] step;       // 0..7
 
-    // latch A after shift, before subtract (for true restore)
+   // Salveaza valoarea lui A inainte de scadere (pt. RESTORE)
     reg [8:0] A_pre_sub;
 
     // subtract A - M
@@ -30,20 +30,20 @@ module restoring_div_unsigned (
     adder_rca #(9) sub_rca (
         .x(A),
         .y(M),
-        .carry_in(1'b1),
+        .carry_in(1'b1), // Aceasta intrare face +1-ul pentru complement fata de 2
         .sum(sub_sum),
         .carry_out(sub_cout)
     );
 
     // latch subtract results
     reg [8:0] sub_sum_r;
-    reg       sub_cout_r;
+    reg       sub_cout_r; 
 
-    localparam S_IDLE   = 3'd0;
-    localparam S_SHIFT  = 3'd1;
-    localparam S_SUB    = 3'd2;
-    localparam S_FIX    = 3'd3;
-    localparam S_DONE   = 3'd4;
+    localparam S_IDLE   = 3'd0; // Asteptare
+    localparam S_SHIFT  = 3'd1; // Deplasare stanga {A, Q}
+    localparam S_SUB    = 3'd2; // Calcul scadere A - M
+    localparam S_FIX    = 3'd3; // Decizie: restauram A sau acceptam scaderea?
+    localparam S_DONE   = 3'd4; // Finalizare si trimitere rezultate
 
     reg [2:0] st;
 
@@ -83,8 +83,6 @@ module restoring_div_unsigned (
                         end else begin
                             busy <= 1'b1;
 
-                            // Pentru TB-ul tău: dividend pe 8 biți (dividend_lo)
-                            // dividend_hi e ignorat aici.
                             A    <= 9'd0;
                             Q    <= dividend_lo;
                             M    <= {1'b0, divisor8};
@@ -107,8 +105,8 @@ module restoring_div_unsigned (
                     st <= S_SUB;
                 end
 
-                // SUB: latch subtract results based on current A (which is A_pre_sub after shift)
-                // Note: A is updated at posedge, so in S_SUB A already equals A_pre_sub.
+                // SUB: Salveaza rezultatul scaderii dintre A (cel nou) si M
+                // Nota: Verilog actualizeaza registrele la front, deci aici A are deja valoarea shiftata
                 S_SUB: begin
                     sub_sum_r  <= sub_sum;
                     sub_cout_r <= sub_cout;

@@ -55,7 +55,7 @@ module alu_datapath (
             if (d_c1) begin A <= {A[7:0], Q[7]}; Q <= {Q[6:0], 1'b0}; end 
             if (m_c5) {A, Q, q_minus_1} <= $signed({A, Q, q_minus_1}) >>> 2; 
 
-            // Logica Diviziune (Sincronizata cu codul tau functional)
+            // Logica Diviziune
             if (d_c2) A_pre_sub <= {A[7:0], Q[7]}; // Latch pre-sub
             if (d_c4) begin sub_sum_r <= rca_sum; cout_r <= rca_cout; end // Latch RCA
             if (d_c5) begin A <= sub_sum_r; Q[0] <= 1'b1; end // Accept
@@ -72,7 +72,7 @@ module alu_datapath (
     assign step_out = step;
     assign triplet_out = {Q[1:0], q_minus_1};
 
-    // Mapare Rezultat Final conform testelor tale
+    // Mapare Rezultat Final
     assign result_out = (opcode == 2'b10) ? {Q, A[7:0]} : // DIV: Q (Hi), R (Lo)
                         (opcode == 2'b11) ? {A[7:0], Q} : // MUL: 16-bit
                                             {7'd0, A[8:0]}; // ADD/SUB

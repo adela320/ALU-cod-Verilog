@@ -28,7 +28,7 @@ module alu_control_unit (
                 if (start) begin
                     if (opcode[1] == 0) next_st = ADD_SUB;
                     else if (opcode == 2'b10) begin
-                        if (divisor_in == 8'd0) begin d_c9 = 1'b1; next_st = DONE; end // DIV0 [cite: 58-59]
+                        if (divisor_in == 8'd0) begin d_c9 = 1'b1; next_st = DONE; end // DIV0
                         else next_st = DIV_INIT;
                     end
                     else next_st = MUL_INIT;
@@ -37,20 +37,20 @@ module alu_control_unit (
 
             ADD_SUB: begin add_en = 1'b1; next_st = DONE; end
 
-            // Logica Diviziune [cite: 60-70]
+            // Logica Diviziune
             DIV_INIT: begin d_c0 = 1'b1; next_st = DIV_SHIFT; end
             DIV_SHIFT: begin 
-                d_c1 = 1'b1; // Shift [cite: 60-61]
+                d_c1 = 1'b1; // Shift
                 d_c2 = 1'b1; // Latch pre-sub 
                 next_st = DIV_SUB; 
             end
-            DIV_SUB: begin d_c4 = 1'b1; next_st = DIV_FIX; end // Latch RCA [cite: 63-64]
+            DIV_SUB: begin d_c4 = 1'b1; next_st = DIV_FIX; end // Latch RCA
             DIV_FIX: begin
-                if (d_sub_cout) d_c5 = 1'b1; else d_c6 = 1'b1; // Accept sau Restore [cite: 65-67]
+                if (d_sub_cout) d_c5 = 1'b1; else d_c6 = 1'b1; // Accept sau Restore
                 d_c7 = 1'b1; next_st = (step == 4'd7) ? DONE : DIV_SHIFT;
             end
 
-            // Logica Booth MUL [cite: 150-158]
+            // Logica Booth MUL
             MUL_INIT: begin m_c0 = 1'b1; m_c1 = 1'b1; next_st = MUL_CALC; end
             MUL_CALC: begin
                 m_c2 = 1'b1;
@@ -69,7 +69,6 @@ module alu_control_unit (
                 m_c7 = 1'b1; 
                 m_c8 = 1'b1; 
                 
-                // ADAUGA ACEASTA LINIE:
                 if (opcode == 2'b10 && divisor_in == 8'd0) d_c9 = 1'b1; 
                 
                 done = 1'b1; 
