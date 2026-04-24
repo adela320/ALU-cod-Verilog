@@ -10,3 +10,4 @@ add wave -divider "Registers"
 add wave -radix decimal sim:/alu_top_tb/dut/dp/A
 add wave -radix decimal sim:/alu_top_tb/dut/dp/Q
 run -all
+add wave *
