@@ -10,6 +10,7 @@
 !*.txt
 !*.md
 !*.png
+!*.pdf
 
 # 4. Nu uita să păstrezi și fișierul .gitignore în sine!
 !.gitignore
