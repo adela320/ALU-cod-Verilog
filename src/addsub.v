@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-//Pentru numere fara semn (Unsigned); folosit la testarea restoring division
+//Pentru numere fara semn (Unsigned), folosit la testarea restoring division
 
 module addsub (
     input  wire clk, reset, start, sub,

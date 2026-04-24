@@ -26,5 +26,5 @@ module alu_main (
         .add_en(add_en), .d_sub_cout(d_cout), .step_out(step), .triplet_out(triplet), .result_out(result)
     );
 
-    assign error = d_c9;
+    assign error = d_c9; //pentru div 0
 endmodule

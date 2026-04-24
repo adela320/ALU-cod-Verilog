@@ -5,8 +5,8 @@ module alu_control_unit (
     input wire [1:0] opcode,
     input wire [7:0] divisor_in,
     input wire d_sub_cout,
-    input wire [3:0] step,
-    input wire [2:0] triplet,
+    input wire [3:0] step, //cnt
+    input wire [2:0] triplet, //q1, q0, q[-1]
     output reg d_c0, d_c1, d_c2, d_c4, d_c5, d_c6, d_c7, d_c8, d_c9,
     output reg m_c0, m_c1, m_c2, m_c3, m_c4, m_c5, m_c6, m_c7, m_c8,
     output reg add_en, busy, done
@@ -40,11 +40,11 @@ module alu_control_unit (
             // Logica Diviziune
             DIV_INIT: begin d_c0 = 1'b1; next_st = DIV_SHIFT; end
             DIV_SHIFT: begin 
-                d_c1 = 1'b1; // Shift
-                d_c2 = 1'b1; // Latch pre-sub 
+                d_c1 = 1'b1; 
+                d_c2 = 1'b1; 
                 next_st = DIV_SUB; 
             end
-            DIV_SUB: begin d_c4 = 1'b1; next_st = DIV_FIX; end // Latch RCA
+            DIV_SUB: begin d_c4 = 1'b1; next_st = DIV_FIX; end 
             DIV_FIX: begin
                 if (d_sub_cout) d_c5 = 1'b1; else d_c6 = 1'b1; // Accept sau Restore
                 d_c7 = 1'b1; next_st = (step == 4'd7) ? DONE : DIV_SHIFT;

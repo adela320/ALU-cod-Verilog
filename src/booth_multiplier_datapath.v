@@ -15,12 +15,12 @@ module booth_multiplier_datapath (
     reg [3:0] step;
 
     // Logica combinationala pentru multiplexor si RCA
-    // Mux-ul selecteaza intre M (extins) si 2M (shiftat stanga)
+    // Mux-ul selecteaza intre M  si 2M 
     wire [9:0] mux_m = c4 ? {M[8:0], 1'b0} : M;
     wire [9:0] sum;
     wire cout;
 
-    // RCA-ul tau pe 10 biti (c3 activeaza scaderea)
+    // RCA-ul pe 10 biti (c3 activeaza scaderea)
     adder_rca #(10) rca_booth (
         .x(A), .y(mux_m), .carry_in(c3), 
         .sum(sum), .carry_out(cout)
@@ -33,16 +33,16 @@ module booth_multiplier_datapath (
         end else begin
             if (c0) begin 
                 A <= 10'd0; 
-                M <= { {2{multiplicand[7]}}, multiplicand }; // Sign extend la 10 biti
+                M <= { {2{multiplicand[7]}}, multiplicand };
                 q_minus_1 <= 1'b0; 
                 step <= 4'd0; 
             end
             if (c1) Q <= multiplier;
             
-            if (c2) A <= sum; // Incarcare rezultat adunare/scadere
+            if (c2) A <= sum; // incarcare rezultat adunare/scadere
 
             if (c5) begin 
-                // ASR 2: Deplasare aritmetica la dreapta cu 2 pozitii
+                // ASR 2: Deplasare la dreapta cu 2 pozitii
                 {A, Q, q_minus_1} <= $signed({A, Q, q_minus_1}) >>> 2;
             end
             
@@ -50,8 +50,8 @@ module booth_multiplier_datapath (
         end
     end
 
-    assign triplet = {Q[1:0], q_minus_1}; // Tripletul curent
+    assign triplet = {Q[1:0], q_minus_1};
     assign step_out = step;
-    // Rezultatul pe 16 biti preluat din registrele A si Q
+    // Rez pe 16 biti din registrele A si Q
     assign prod_out = {A[7:0], Q}; 
 endmodule

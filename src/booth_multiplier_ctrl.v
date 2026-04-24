@@ -20,7 +20,7 @@ module booth_multiplier_ctrl (
             IDLE: begin busy = 0; if (start) next_st = INIT; end
             INIT: begin c0 = 1; c1 = 1; next_st = CALC; end
             CALC: begin
-                case (triplet) // Logica de selectie operatie
+                case (triplet) // selectie operatie
                     3'b001, 3'b010: begin c2 = 1; end               // +M
                     3'b011:         begin c2 = 1; c4 = 1; end       // +2M
                     3'b100:         begin c2 = 1; c3 = 1; c4 = 1; end // -2M
@@ -31,7 +31,7 @@ module booth_multiplier_ctrl (
             end
             SHIFT: begin
                 c5 = 1; c6 = 1; 
-                if (step == 4'd3) next_st = DONE; // 4 cicluri pentru Radix-4
+                if (step == 4'd3) next_st = DONE;
                 else next_st = CALC;
             end
             DONE: begin c7 = 1; c8 = 1; busy = 0; next_st = IDLE; end

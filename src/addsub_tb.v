@@ -54,18 +54,16 @@ module addsub_tb;
             #1;
 
             if (sum9 === expected)
-                $display("PASS %s: a=%0d b=%0d => sum9=%0d",
-                         do_sub ? "SUB" : "ADD", a, b, sum9);
+                $display("PASS %s: a=%0d b=%0d => sum9=%0d", do_sub ? "SUB" : "ADD", a, b, sum9);
             else
-                $display("FAIL %s: a=%0d b=%0d => got %0d expected %0d",
-                         do_sub ? "SUB" : "ADD", a, b, sum9, expected);
+                $display("FAIL %s: a=%0d b=%0d => got %0d expected %0d", do_sub ? "SUB" : "ADD", a, b, sum9, expected);
 
             @(posedge clk); #1;
         end
     endtask
 
     initial begin
-        $display("=== addsub TB START ===");
+      
         do_reset();
 
         // 7 - 4 = 3
@@ -77,7 +75,7 @@ module addsub_tb;
         // 250 + 10 = 260 (9-bit)
         run_addsub(1'b0, 8'd250, 8'd10, 9'd260);
 
-        $display("=== addsub TB DONE ===");
+       
         #20 $stop;
     end
 

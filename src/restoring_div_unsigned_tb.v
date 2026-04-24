@@ -52,7 +52,6 @@ module restoring_div_unsigned_tb;
             @(posedge clk); #1;
             start = 0;
 
-            // done
             wait (done == 1'b1);
             #1;
 
@@ -71,13 +70,13 @@ module restoring_div_unsigned_tb;
                              dividend16, div8, quotient, remainder, exp_q, exp_r);
             end
 
-            // un ciclu între teste
+      
             @(posedge clk); #1;
         end
     endtask
 
     initial begin
-        $display("=== restoring_div_unsigned TB START ===");
+        $display("restoring_div_unsigned");
         do_reset();
 
         // 7 / 4 = 1 r 3
@@ -89,7 +88,6 @@ module restoring_div_unsigned_tb;
         // 7 / 0 => div0=1, q=r=0
         run_div(16'd7, 8'd0, 8'd0, 8'd0);
 
-        $display("=== restoring_div_unsigned TB DONE ===");
         #20 $stop;
     end
 

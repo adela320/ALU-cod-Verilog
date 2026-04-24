@@ -19,12 +19,12 @@ module restoring_div_datapath (
 
     always @(posedge clk) begin
         if (c0) begin A <= 9'd0; Q <= dividend; M <= {1'b0, divisor}; step <= 0; end 
-        if (c1) begin A <= {A[7:0], Q[7]}; Q <= {Q[6:0], 1'b0}; end // Shift 
-        if (c2) A_pre_sub <= {A[7:0], Q[7]}; // Latch pre-sub 
-        if (c4) begin sub_sum_r <= s_sum; cout_r <= s_cout; end // Latch RCA 
-        if (c5) begin A <= sub_sum_r; Q[0] <= 1'b1; end // Accept sub 
-        if (c6) begin A <= A_pre_sub; Q[0] <= 1'b0; end // Restore 
-        if (c7) step <= step + 1'b1; // Next step 
+        if (c1) begin A <= {A[7:0], Q[7]}; Q <= {Q[6:0], 1'b0}; end // shift 
+        if (c2) A_pre_sub <= {A[7:0], Q[7]}; // latch pre-sub 
+        if (c4) begin sub_sum_r <= s_sum; cout_r <= s_cout; end // latch RCA 
+        if (c5) begin A <= sub_sum_r; Q[0] <= 1'b1; end // accept sub 
+        if (c6) begin A <= A_pre_sub; Q[0] <= 1'b0; end // restore 
+        if (c7) step <= step + 1'b1; // next step 
     end
 
     assign sub_cout_r = cout_r;

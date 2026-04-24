@@ -3,7 +3,7 @@ vlib work
 vmap work work
 
 vlog -work work -timescale "1ns/1ns" adder_rca.v
-vlog -work work -timescale "1ns/1ns" adder_rca_sanity_tb.v
+vlog -work work -timescale "1ns/1ns" adder_rca_testing_tb.v
 
-vsim -t 1ns work.adder_rca_sanity_tb
+vsim -t 1ns work.adder_rca_testing_tb
 run -all
