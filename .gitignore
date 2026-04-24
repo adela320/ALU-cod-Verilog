@@ -9,6 +9,7 @@
 !*.tcl
 !*.txt
 !*.md
+!*.png
 
 # 4. Nu uita să păstrezi și fișierul .gitignore în sine!
 !.gitignore
