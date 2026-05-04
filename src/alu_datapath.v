@@ -12,7 +12,7 @@ module alu_datapath (
     output wire [2:0] triplet_out,
     output wire [15:0] result_out
 );
-    // Registre pe 9 biti conform schemei tale
+    // Registre pe 9 biti
     reg [8:0] A, M, A_pre_sub, sub_sum_r;
     reg [7:0] Q;
     reg q_minus_1, cout_r;
